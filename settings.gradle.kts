@@ -1,0 +1,38 @@
+rootProject.name = extra["project.name"]?.toString() ?: error("project.name not set")
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        mavenLocal {
+            content {
+                includeGroup("org.openrndr")
+                includeGroup("org.openrndr.extra")
+            }
+        }
+    }
+
+    versionCatalogs {
+        // We use a regex to get the openrndr/orx versions from the primary catalog as there is no public Gradle API to parse catalogs.
+        val orRegEx = Regex("^openrndr[ ]*=[ ]*(?:\\{[ ]*require[ ]*=[ ]*)?\"(.*)\"[ ]*(?:\\})?", RegexOption.MULTILINE)
+        val orxRegEx = Regex("^orx[ ]*=[ ]*(?:\\{[ ]*require[ ]*=[ ]*)?\"(.*)\"[ ]*(?:\\})?", RegexOption.MULTILINE)
+        val openrndrVersion = orRegEx.find(File(rootDir,"gradle/libs.versions.toml").readText())?.groupValues?.get(1) ?: error("can't find openrndr version")
+        val orxVersion = orxRegEx.find(File(rootDir,"gradle/libs.versions.toml").readText())?.groupValues?.get(1) ?: error("can't find orx version")
+
+        create("orx") {
+            from("org.openrndr.extra:orx-module-catalog:$orxVersion")
+        }
+        create("openrndr") {
+            from("org.openrndr:openrndr-module-catalog:$openrndrVersion")
+        }
+        create("deplibs") {
+            from("org.openrndr:openrndr-dependency-catalog:$openrndrVersion")
+        }
+    }
+}
