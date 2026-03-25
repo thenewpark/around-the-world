@@ -1,4 +1,4 @@
-package viz
+package components
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import org.openrndr.math.Vector2

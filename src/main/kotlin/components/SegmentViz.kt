@@ -64,6 +64,8 @@ class SegmentViz(
 
         val allRects = mutableListOf<Rectangle>()
         val activeRects = mutableListOf<Rectangle>()
+
+
         for ((index, segment) in segments.withIndex()) {
             drawer.fill = fill(index, segment)
             drawer.stroke = stroke(index, segment)
