@@ -19,12 +19,6 @@ Daft Punk's *Around the World*.
 - JDK 17+
 - IntelliJ IDEA (recommended)
 
-## Run
-
-```bash
-./gradlew run
-```
-
 ## Project Structure
 
 ```
